@@ -1,4 +1,5 @@
 import {Sequence} from "./Sequence";
+import * as _ from "lodash";
 
 export class SequenceFunctional implements Sequence {
 
@@ -6,7 +7,10 @@ export class SequenceFunctional implements Sequence {
     }
 
     public sequence(count: number, repeater: {} | Function): Array<{}> {
-        return undefined;
+        if (!_.isFunction(repeater)) {
+            repeater = _.bind(_.identity, this, repeater);
+        }
+        return _.map(_.range(count), repeater);
     }
 
 }
